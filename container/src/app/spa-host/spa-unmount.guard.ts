@@ -1,10 +1,14 @@
-import { Injectable } from '@angular/core';
-import { CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { SpaHostComponent } from './spa-host.component';
+import { Injectable } from "@angular/core";
+import {
+  CanDeactivate,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+} from "@angular/router";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import { SpaHostComponent } from "./spa-host.component";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class SpaUnmountGuard implements CanDeactivate<SpaHostComponent> {
   canDeactivate(
     component: SpaHostComponent,
@@ -19,10 +23,12 @@ export class SpaUnmountGuard implements CanDeactivate<SpaHostComponent> {
       return true;
     }
 
-    return component.unmount().pipe(map(_ => true));
+    return component.unmount().pipe(map((_) => true));
   }
 
-  private extractAppDataFromRouteTree(routeFragment: ActivatedRouteSnapshot): string {
+  private extractAppDataFromRouteTree(
+    routeFragment: ActivatedRouteSnapshot
+  ): string {
     if (routeFragment.data && routeFragment.data.app) {
       return routeFragment.data.app;
     }
@@ -31,6 +37,8 @@ export class SpaUnmountGuard implements CanDeactivate<SpaHostComponent> {
       return null;
     }
 
-    return routeFragment.children.map(r => this.extractAppDataFromRouteTree(r)).find(r => r !== null);
+    return routeFragment.children
+      .map((r) => this.extractAppDataFromRouteTree(r))
+      .find((r) => r !== null);
   }
 }
